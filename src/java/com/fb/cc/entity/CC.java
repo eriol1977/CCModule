@@ -9,14 +9,26 @@ package com.fb.cc.entity;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author Francesco
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name=CC.FIND_ALL,
+                query="SELECT c FROM CC c"),
+    @NamedQuery(name=CC.FIND_WITH_SALDO_HIGHER_THAN,
+                query="SELECT c FROM CC c WHERE c.saldo > :saldo"),
+})
 public class CC implements Serializable
 {
+    public static final String FIND_ALL = "CC.findAll";
+    
+    public static final String FIND_WITH_SALDO_HIGHER_THAN = "CC.findWithSaldoHigherThan";
+    
     @Id
     private Integer id;
     
@@ -51,6 +63,12 @@ public class CC implements Serializable
     public void setSaldo(Integer saldo)
     {
         this.saldo = saldo;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "CC " + this.id + ": saldo " + this.saldo;
     }
     
 }
